@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FaUser, FaEnvelope, FaLock, FaEye, FaEyeSlash, FaMapMarkerAlt, FaCheck } from 'react-icons/fa';
+import { FaUser, FaEnvelope, FaLock, FaEye, FaEyeSlash, FaMapMarkerAlt, FaCheck, FaArrowLeft} from 'react-icons/fa';
 
 const RestaurantSignup = () => {
   const navigate = useNavigate();
@@ -113,6 +113,18 @@ const RestaurantSignup = () => {
         <div className="space-y-6">
           <h1 className="text-4xl font-bold mb-8 text-center">Restaurant Sign Up</h1>
 
+                  <div className="col-span-1 lg:col-span-2 mb-4"> 
+                    {/* Back Button */}  
+                    <button  
+                      type="button"  
+                      onClick={() => navigate(-1)} // Navigate back to the previous page  
+                      className="flex items-center text-gray-300 hover:text-white"  
+                    >  
+                      <FaArrowLeft className="mr-2" />  
+                      Back  
+                    </button>  
+                  </div>  
+                  
           <div className="space-y-4">
             {/* Email Field */}
             <div>
