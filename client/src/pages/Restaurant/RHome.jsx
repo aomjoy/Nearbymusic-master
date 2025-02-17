@@ -1,55 +1,61 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
-import { FaMusic, FaUtensils, FaComments, FaUserAlt, FaHome } from "react-icons/fa";
+import React, { useState, useEffect } from 'react';
+import RSidebar from '../../components/RSidebar';
+import CreatePost from '../../components/CreatePost';
+import axios from 'axios';
 
 const RHome = () => {
-  const navigate = useNavigate();
+  const [posts, setPosts] = useState([]);
+  const [showCreatePost, setShowCreatePost] = useState(false);
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const response = await axios.get('/api/posts');
+        setPosts(response.data);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    fetchPosts();
+  }, []);
+
+  const handleCreatePost = (newPost) => {
+    setPosts([...posts, newPost]);
+    setShowCreatePost(false);
+  };
 
   return (
-    <div className="flex min-h-screen bg-gray-900 text-white">
-      {/* Sidebar */}
-      <div className="w-20 bg-gray-800 p-4 flex flex-col justify-between h-full shadow-lg rounded-r-xl">
-        <div className="flex flex-col items-center space-y-8">
-          <h1 className="text-3xl font-bold text-center text-blue-400 mb-6">NearbyMusic</h1>
-          <ul className="space-y-6">
-            {/* Home Icon */}
-            <li
-              className="flex flex-col items-center gap-2 cursor-pointer text-xl transition-all hover:bg-blue-600 p-4 rounded-xl"
-              onClick={() => navigate("/RHome")}
-            >
-              <FaHome className="text-blue-400 text-3xl" />
-              <span className="text-sm">Home</span>
-            </li>
-            <li 
-              className="flex flex-col items-center gap-2 cursor-pointer text-xl transition-all hover:bg-blue-600 p-4 rounded-xl"
-              onClick={() => navigate("/RActivities")}
-            >
-              <FaMusic className="text-blue-400 text-3xl" />
-              <span className="text-sm">Activities</span>
-            </li>
-            <li 
-              className="flex flex-col items-center gap-2 cursor-pointer text-xl transition-all hover:bg-blue-600 p-4 rounded-xl"
-              onClick={() => navigate("/RChat")}
-            >
-              <FaComments className="text-blue-400 text-3xl" />
-              <span className="text-sm">Chat</span>
-            </li>
-            <li 
-              className="flex flex-col items-center gap-2 cursor-pointer text-xl transition-all hover:bg-blue-600 p-4 rounded-xl"
-              onClick={() => navigate("/RProfile")}
-            >
-              <FaUserAlt className="text-blue-400 text-3xl" />
-              <span className="text-sm">Profile</span>
-            </li>
-          </ul>
-        </div>
-        <div className="flex justify-center">
+    <div className="flex">
+      <RSidebar />
+      <div className="flex-1 ml-60">
+        <div className="min-h-screen bg-gray-900 p-8">
+          <div className="mb-8">
+            <h1 className="text-6xl font-bold mb-4 text-white">Welcome to NearbyMusic</h1>
+            <p className="text-2xl text-gray-300">
+              Explore job opportunities and collaborate with restaurants for your next performance.
+            </p>
+          </div>
           <button
-            className="w-full bg-blue-500 hover:bg-blue-600 text-white text-lg font-semibold py-4 rounded-xl mt-8 transition-all"
-            onClick={() => navigate("/login")}
+            onClick={() => setShowCreatePost(true)}
+            className="fixed bottom-8 right-8 bg-blue-500 hover:bg-blue-600 text-white text-xl font-semibold py-4 px-8 rounded-xl transition-all"
           >
-            Log Out
+            Add Post
           </button>
+          {showCreatePost && (
+            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+              <CreatePost onCreatePost={handleCreatePost} onClose={() => setShowCreatePost(false)} />
+            </div>
+          )}
+          <div className="mt-8">
+            {posts.map((post, index) => (
+              <div key={index} className="bg-gray-800 p-8 rounded-3xl shadow-lg text-white mb-6">
+                <h2 className="text-3xl font-semibold mb-4">{post.restaurantName}</h2>
+                <p className="text-gray-400 text-xl mb-2">Genres: {post.selectedGenres.join(', ')}</p>
+                <p className="text-gray-400 text-xl mb-2">Instruments: {post.selectedInstruments.join(', ')}</p>
+                <p className="text-gray-400 text-xl">Number of People: {post.numberOfPeople}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>

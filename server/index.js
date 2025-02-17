@@ -8,6 +8,7 @@ const {notFound, errorHandler} = require('./middleware/errorMiddleware')
 const restaurantRoutes = require('./routes/restaurantRoutes');
 const musicianRoutes = require('./routes/musicianRoutes');
 const authRoutes = require('./routes/authRoutes');
+const postRoutes = require('./routes/postRoutes');
 
 const app = express();
 app.use(cors({credentials: true, origin: "http://localhost:3000"}));
@@ -18,6 +19,7 @@ app.use('/api/users', userRoutes)
 app.use('/api/restaurants', restaurantRoutes);
 app.use('/api/musicians', musicianRoutes);
 app.use('/api/login', authRoutes);
+app.use('/api', postRoutes);
 
 app.use(notFound)
 app.use(errorHandler)

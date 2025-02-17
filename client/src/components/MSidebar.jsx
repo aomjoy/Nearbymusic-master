@@ -1,7 +1,7 @@
 import React from 'react';  
 import { Link, useNavigate } from 'react-router-dom';  
 
-const Sidebar = () => {  
+const MSidebar = () => {  
   const navigate = useNavigate();  
 
   // Handle Logout Action  
@@ -55,4 +55,4 @@ const Sidebar = () => {
   );  
 };  
 
-export default Sidebar;
+export default MSidebar;

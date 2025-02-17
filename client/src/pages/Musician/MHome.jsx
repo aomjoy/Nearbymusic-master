@@ -1,4 +1,5 @@
-import React from 'react';  
+import React from 'react';
+import MSidebar from '../../components/MSidebar';
 
 const MHome = () => {  
   const restaurants = [  
@@ -63,4 +64,4 @@ const MHome = () => {
   );  
 };  
 
-export default MHome;  
+export default MHome;
